@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حساب‌های PAMM - سرمایه‌گذاری</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            background-color: #f4f4f4;
+        }
+        .hero {
+            background: url('investment-banner.jpg') no-repeat center center/cover;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .section {
+            padding: 60px 20px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.7s ease-in-out;
+        }
+        .show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .pamm-section {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #222;
+            color: white;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- هدر -->
+    <header class="hero">
+        <h1>سرمایه‌گذاری در حساب‌های PAMM</h1>
+    </header>
+
+    <!-- معرفی حساب‌های PAMM -->
+    <section class="section container pamm-section">
+        <h2>چرا حساب‌های PAMM؟</h2>
+        <p>حساب‌های PAMM یکی از بهترین روش‌ها برای سرمایه‌گذاری در فارکس هستند که به شما امکان می‌دهند بدون معامله مستقیم، از سودآوری معامله‌گران حرفه‌ای بهره‌مند شوید.</p>
+    </section>
+
+    <!-- تصاویر انگیزشی -->
+    <section class="section container">
+        <h2>الهام بگیرید!</h2>
+        <img src="motivation.jpg" class="img-fluid rounded shadow" alt="سرمایه‌گذاری موفق">
+    </section>
+
+    <!-- قیمت‌های آنلاین جفت ارزها -->
+    <section class="section container">
+        <h2>قیمت‌های زنده جفت‌ارزها</h2>
+        <iframe src="https://www.widgets.tradingview.com/" width="100%" height="300"></iframe>
+    </section>
+
+    <!-- نمودارهای زنده در پایین سایت -->
+    <section class="section container">
+        <h2>نمودارهای زنده بازار</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <h4>داوجونز</h4>
+                <iframe src="https://s.tradingview.com/widgetembed/?symbol=DJI" width="100%" height="250"></iframe>
+            </div>
+            <div class="col-md-4">
+                <h4>طلا</h4>
+                <iframe src="https://s.tradingview.com/widgetembed/?symbol=XAUUSD" width="100%" height="250"></iframe>
+            </div>
+            <div class="col-md-4">
+                <h4>یورو/دلار</h4>
+                <iframe src="https://s.tradingview.com/widgetembed/?symbol=EURUSD" width="100%" height="250"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- فوتر سایت -->
+    <footer class="footer">
+        <p>© 2025 همه حقوق محفوظ است - طراحی شده توسط امین</p>
+    </footer>
+
+    <!-- اسکریپت افکت اسکرول -->
+    <script>
+        $(document).ready(function() {
+            $(window).scroll(function() {
+                $(".section").each(function() {
+                    let sectionTop = $(this).offset().top;
+                    let windowBottom = $(window).scrollTop() + $(window).height();
+                    if (windowBottom > sectionTop + 50) {
+                        $(this).addClass("show");
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
