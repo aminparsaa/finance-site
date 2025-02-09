@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فارکس</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            direction: rtl;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #000;
+            color: white;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+        nav ul li {
+            margin-left: 10px;
+        }
+        main {
+            text-align: center;
+            padding: 50px 20px;
+        }
+        .button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        footer {
+            text-align: center;
+            padding: 10px 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+        }
+        .hero-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 50px 20px;
+            background-color: #f0f4f8;
+        }
+        .hero-section img {
+            width: 50%;
+        }
+        .hero-section .content {
+            width: 45%;
+        }
+        .services-section {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 50px 20px;
+            background-color: #fff;
+        }
+        .service-box {
+            width: 45%;
+            text-align: left;
+        }
+        .service-box h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .service-box p {
+            margin-bottom: 20px;
+        }
+        .service-box button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .contact-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 50px 20px;
+            background-color: #000;
+            color: white;
+        }
+        .contact-section .form {
+            width: 60%;
+        }
+        .contact-section .form input,
+        .contact-section .form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+        .contact-section .form button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li>صفحات</li>
+                <li>سفارشی کنید</li>
+                <li>کمک کنید</li>
+            </ul>
+        </nav>
+        <h1>صفحه اصلی</h1>
+        <a href="#" class="button">تماس با ما</a>
+    </header>
+    <main>
+        <div class="hero-section">
+            <div class="content">
+                <h2>قوی‌سازی موفقیت فارکس شما</h2>
+                <p>در finance-site، در قلب دارمشتات، آلمان، متخصصین در مسیریابی پیچیدگی‌های بازار ارز خارجی هستیم. تیم ما از کارشناسان حرفه‌ای، به ارائه دیدگاه‌های جدید و استراتژی‌های شخصی سازماندهی شده برای کمک به مشتریان ما در محیط معاملاتی پویا اختصاص داده شده است.</p>
+                <p>ما اولویت را بر شفافیت و نوآوری قرار می‌دهیم، به طوری که هر مشتری راه‌حل‌های سفارشی که با اهداف مالی منحصر به فرد آنها همخوانی دارد دریافت می‌کند. عضو finance-site شوید و اطمینان حاصل از معامله با یک شریک مورد اعتماد در جهان فارکس را تجربه کنید.</p>
+            </div>
+            <img src="chart-image.jpg" alt="نمودار">
+        </div>
+        <div class="services-section">
+            <div class="service-box">
+                <h2>مشاوره تبادل ارز</h2>
+                <p>راهنمایی حرفه‌ای در روندهای ارزی برای بهینه‌سازی استراتژی‌های معاملاتی شما.</p>
+                <button>اطلاعات بیشتر</button>
+            </div>
+            <div class="service-box">
+                <h2>تحلیل بازار واقعی</h2>
+                <p>با اطلاعات و تحلیل‌های دقیق لحظه‌ای بازار آشنا شوید.</p>
+                <button>اطلاعات بیشتر</button>
+            </div>
+        </div>
+        <div class="contact-section">
+            <div class
