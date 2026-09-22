@@ -71,6 +71,7 @@ test("every adapter exposes the fetch-parse-validate-normalize contract", () => 
   assert.ok(registry.length > 0)
   assert.ok(registry.every(adapterContract))
   assert.ok(registry.some((adapter) => adapter.status === STATUS.NOT_CONNECTED))
+  assert.equal(registry.find((adapter) => adapter.id === "bls-cpi").id, "bls-cpi")
   assert.equal(EVENT_TAXONOMY.length >= 12, true)
 })
 

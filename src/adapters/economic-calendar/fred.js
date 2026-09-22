@@ -1,6 +1,6 @@
 import { createNotConnectedAdapter } from "../sourceAdapter.js"
 
-export function createFredAdapter() {
+export function createFredAdapter(overrides = {}) {
   return createNotConnectedAdapter({
     id: "fred-macro",
     label: "Federal Reserve Economic Data",
@@ -10,17 +10,18 @@ export function createFredAdapter() {
     capabilities: ["fetch", "parse", "validate", "normalize", "historical series"],
     requiredEnv: ["FED_DATA_PROVIDER"],
     status: "PARTIAL",
+    ...overrides,
   })
 }
 
 export function createFredCpiAdapter() {
-  return { ...createFredAdapter(), id: "fred-cpi", label: "FRED CPI adapter" }
+  return createFredAdapter({ id: "fred-cpi", label: "FRED CPI adapter" })
 }
 
 export function createFredPpiAdapter() {
-  return { ...createFredAdapter(), id: "fred-ppi", label: "FRED PPI adapter" }
+  return createFredAdapter({ id: "fred-ppi", label: "FRED PPI adapter" })
 }
 
 export function createFredPceAdapter() {
-  return { ...createFredAdapter(), id: "fred-pce", label: "FRED PCE adapter" }
+  return createFredAdapter({ id: "fred-pce", label: "FRED PCE adapter" })
 }

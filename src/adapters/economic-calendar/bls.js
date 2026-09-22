@@ -1,6 +1,6 @@
 import { createNotConnectedAdapter } from "../sourceAdapter.js"
 
-export function createBlsAdapter() {
+export function createBlsAdapter(overrides = {}) {
   return createNotConnectedAdapter({
     id: "bls-employment",
     label: "US Bureau of Labor Statistics",
@@ -10,21 +10,22 @@ export function createBlsAdapter() {
     capabilities: ["fetch", "parse", "validate", "normalize", "release metadata"],
     requiredEnv: ["ECONOMIC_CALENDAR_PROVIDER"],
     status: "PARTIAL",
+    ...overrides,
   })
 }
 
 export function createBlsCpiAdapter() {
-  return { ...createBlsAdapter(), id: "bls-cpi", label: "BLS CPI adapter" }
+  return createBlsAdapter({ id: "bls-cpi", label: "BLS CPI adapter" })
 }
 
 export function createBlsPpiAdapter() {
-  return { ...createBlsAdapter(), id: "bls-ppi", label: "BLS PPI adapter" }
+  return createBlsAdapter({ id: "bls-ppi", label: "BLS PPI adapter" })
 }
 
 export function createBlsClaimsAdapter() {
-  return { ...createBlsAdapter(), id: "bls-claims", label: "BLS Jobless Claims adapter" }
+  return createBlsAdapter({ id: "bls-claims", label: "BLS Jobless Claims adapter" })
 }
 
 export function createBlsJoltsAdapter() {
-  return { ...createBlsAdapter(), id: "bls-jolts", label: "BLS JOLTS adapter" }
+  return createBlsAdapter({ id: "bls-jolts", label: "BLS JOLTS adapter" })
 }
