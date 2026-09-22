@@ -60,6 +60,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .button-primary:hover { background: #e4bd6a; border-color: #e4bd6a; }
 .button-secondary { color: var(--muted-strong); background: transparent; border-color: var(--line); }
 .button-secondary:hover { color: var(--text); border-color: var(--muted); background: var(--panel-soft); }
+.button:disabled { cursor: wait; opacity: 0.55; }
 
 .dashboard-stack, .page-stack, .settings-layout { display: grid; gap: 18px; }
 .panel { min-width: 0; padding: 25px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); box-shadow: var(--shadow); }
@@ -198,6 +199,11 @@ select:focus, input:focus { border-color: var(--gold); box-shadow: 0 0 0 2px rgb
 .setting-field select { min-width: 180px; }
 .setting-field input[type="number"] { width: 110px; }
 .setting-toggle input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--gold); }
+.byok-warning { margin: 18px 0 4px; padding: 11px 12px; color: var(--gold); border: 1px solid #5a4727; border-radius: 6px; background: var(--gold-soft); font-size: 10px; line-height: 1.55; }
+.byok-panel .setting-field { min-height: 68px; }
+.byok-panel .setting-field input[type="text"], .byok-panel .setting-field input[type="password"] { width: 210px; }
+.byok-actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 17px; }
+.byok-result { min-height: 34px; margin: 15px 0 0; padding-top: 12px; color: var(--muted); border-top: 1px solid var(--line-soft); font-size: 10px; line-height: 1.55; }
 .plain-list { display: grid; gap: 10px; margin: 20px 0 0; padding: 0; list-style: none; }
 .plain-list li { padding-left: 16px; color: var(--muted-strong); font-size: 11px; line-height: 1.55; }
 .plain-list li::before { content: ""; width: 5px; height: 5px; display: inline-block; margin: 0 11px 1px -16px; border-radius: 50%; background: var(--gold); }
@@ -255,6 +261,7 @@ select:focus, input:focus { border-color: var(--gold); box-shadow: 0 0 0 2px rgb
   .note-box { align-items: flex-start; flex-direction: column; gap: 5px; }
   .setting-field { align-items: flex-start; flex-direction: column; gap: 10px; }
   .setting-field select, .setting-field input[type="number"] { width: 100%; }
+  .byok-panel .setting-field input[type="text"], .byok-panel .setting-field input[type="password"] { width: 100%; }
   .setting-toggle { align-items: center; flex-direction: row; }
   .app-footer { width: 90vw; align-items: flex-start; flex-direction: column; }
 }

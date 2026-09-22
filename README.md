@@ -78,6 +78,16 @@ SCENARIO_INLINE_TOLERANCE=0.05
 
 Real values belong in a backend secret store or GitHub Actions secrets. For Hugging Face, add a repository secret named `HF_TOKEN`. Never put it in `app.js`, `localStorage`, `.env` committed to Git, or the browser bundle.
 
+## Browser-only BYOK Mode
+
+Settings includes an explicit Hugging Face **Browser-only BYOK** mode for personal use. The user can enter a token and run a real verification plus a small inference request from the current tab.
+
+- The token is held only in JavaScript memory for the current tab.
+- The input is cleared after the test; refresh, tab close or `Clear tab token` removes the connection.
+- The token is not written to `localStorage`, `sessionStorage`, URL, GitHub or the build artifact.
+- The browser can still inspect a key that it uses. Treat this mode as unsafe on shared or untrusted devices.
+- This only connects the LLM provider. It does not create live economic-calendar, market-price or news data.
+
 ## Development
 
 The app uses hash routes so GitHub Pages does not need server-side rewrites:
@@ -145,12 +155,14 @@ The Browser Research Agent boundary requires a visible source URL, extraction ti
 - Settings stores only non-secret display preferences in `localStorage`.
 - No provider secret is placed in README, source or test fixtures.
 - Hugging Face access is read only from the GitHub Actions secret `HF_TOKEN` during CI verification.
+- Browser-only BYOK is an explicit exception: the user accepts that a key used by browser JavaScript is visible to that page.
 - Static GitHub Pages cannot safely proxy private provider credentials; use a backend or serverless secret boundary before connecting live feeds.
 
 ## Limitations
 
 - No live economic calendar, market data, news, Fed or Browser Agent is connected in this version.
-- Hugging Face token verification is CI-only; runtime LLM inference still needs a secure backend endpoint.
+- Without BYOK, Hugging Face token verification is CI-only; shared-user runtime inference still needs a secure backend endpoint.
+- BYOK inference is available for a user who accepts browser exposure; it is not a secure shared-user credential flow.
 - Historical reaction values are unavailable until timestamped XAUUSD price data and release observations are available.
 - Iran time is computed from a verified UTC release timestamp; it is never guessed from a label.
 - A synchronized market move is not causal proof. Reaction tables must retain method and provenance.

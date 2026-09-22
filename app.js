@@ -2,6 +2,8 @@ import { createAdapterRegistry } from "./src/adapters/registry.js"
 import { getRoute } from "./src/app/routes.js"
 import { createDataRepository } from "./src/services/dataRepository.js"
 import { loadConfig, saveConfig } from "./src/services/configStore.js"
+import { STATUS } from "./src/domain/schemas.js"
+import { DEFAULT_HF_MODEL, runHuggingFaceInference, verifyHuggingFaceToken } from "./src/services/huggingFaceClient.js"
 import { renderApp } from "./src/ui/render.js"
 
 const runtimeMeta = window.__APP_META__ ?? {
@@ -13,11 +15,21 @@ const repository = createDataRepository({ registry: createAdapterRegistry(), run
 let state = repository.getSnapshot()
 let config = loadConfig()
 let countdownTimer = null
+let browserOnlyToken = ""
+let browserState = {
+  status: STATUS.NOT_CONNECTED,
+  model: DEFAULT_HF_MODEL,
+  result: "No request has been sent from this tab.",
+}
+const baseLlmState = state.system.find((item) => item.label === "LLM") ?? {
+  status: STATUS.NOT_CONNECTED,
+  note: "LLM is optional and not connected.",
+}
 
 function render() {
   const root = document.querySelector("#app")
   if (!root) return
-  root.innerHTML = renderApp(getRoute(), state, config)
+  root.innerHTML = renderApp(getRoute(), state, config, browserState)
   document.body.classList.toggle("compact-mode", Boolean(config.compactMode))
   bindPageEvents()
   updateCountdown()
@@ -54,6 +66,65 @@ function bindPageEvents() {
     button.innerHTML = "Refresh adapters <span>refresh</span>"
     showToast("No live adapter is connected. Nothing was refreshed.")
   })
+
+  document.querySelector("#hf-test-connect")?.addEventListener("click", testHuggingFaceConnection)
+  document.querySelector("#hf-clear-token")?.addEventListener("click", clearBrowserToken)
+}
+
+function setLlmState(status, note) {
+  state = {
+    ...state,
+    system: state.system.map((item) => item.label === "LLM" ? { ...item, status, note } : item),
+    adapters: state.adapters.map((adapter) => adapter.id === "llm-provider" ? { ...adapter, status } : adapter),
+  }
+}
+
+async function testHuggingFaceConnection() {
+  const tokenInput = document.querySelector("#hf-browser-token")
+  const modelInput = document.querySelector("#hf-browser-model")
+  const button = document.querySelector("#hf-test-connect")
+  const token = tokenInput?.value.trim() || browserOnlyToken
+  const model = modelInput?.value.trim() || DEFAULT_HF_MODEL
+  if (!token) {
+    browserState = { ...browserState, status: STATUS.UNAVAILABLE, result: "Enter a token before testing." }
+    render()
+    return
+  }
+
+  browserOnlyToken = token
+  browserState = { status: STATUS.VERIFYING, model, result: "Verifying token and testing one inference request ..." }
+  if (tokenInput) tokenInput.value = ""
+  if (button) button.disabled = true
+  render()
+
+  const verified = await verifyHuggingFaceToken(browserOnlyToken)
+  if (!verified.ok) {
+    browserOnlyToken = ""
+    browserState = { ...browserState, status: STATUS.UNAVAILABLE, result: verified.message }
+    setLlmState(STATUS.NOT_CONNECTED, baseLlmState.note)
+    render()
+    return
+  }
+
+  try {
+    const response = await runHuggingFaceInference(browserOnlyToken, {
+      model,
+      prompt: "Reply with exactly CONNECTED. This is a connectivity test, not market analysis.",
+    })
+    browserState = { status: STATUS.READY, model, result: `Connected in this tab. Provider response: ${response}` }
+    setLlmState(STATUS.READY, "Hugging Face inference is connected in this tab only; no token is persisted.")
+  } catch (error) {
+    browserState = { status: STATUS.PARTIAL, model, result: `Token verified, but inference failed: ${error.message}` }
+    setLlmState(STATUS.PARTIAL, "Hugging Face token verified, but inference is not currently available for this model.")
+  }
+  render()
+}
+
+function clearBrowserToken() {
+  browserOnlyToken = ""
+  browserState = { status: STATUS.NOT_CONNECTED, model: DEFAULT_HF_MODEL, result: "Browser-only token cleared from this tab." }
+  setLlmState(baseLlmState.status, baseLlmState.note)
+  render()
 }
 
 function updateCountdown() {
