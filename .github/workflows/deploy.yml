@@ -41,6 +41,7 @@ jobs:
           BASE_PATH: /${{ github.event.repository.name }}/
           DEPLOYMENT_STATUS: READY
           HF_PROVIDER_STATUS: ${{ steps.huggingface.outputs.status }}
+          ASSET_VERSION: ${{ github.sha }}
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
