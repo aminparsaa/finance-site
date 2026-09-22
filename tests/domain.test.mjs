@@ -76,9 +76,11 @@ test("every adapter exposes the fetch-parse-validate-normalize contract", () => 
 })
 
 test("initial state makes missing live data visible", () => {
-  const state = createInitialState({ runtimeMeta: { deploymentStatus: "READY" } })
+  const state = createInitialState({ runtimeMeta: { deploymentStatus: "READY", hfProviderStatus: "PARTIAL" } })
   assert.equal(state.nextEvent.actual, null)
   assert.equal(state.context["gold-price"].status, STATUS.NOT_CONNECTED)
   assert.equal(state.system.find((item) => item.label === "GitHub Pages").status, "READY")
   assert.equal(state.system.find((item) => item.label === "Live Market Data").status, STATUS.NOT_CONNECTED)
+  assert.equal(state.system.find((item) => item.label === "LLM").status, STATUS.PARTIAL)
+  assert.equal(state.adapters.find((adapter) => adapter.id === "llm-provider").status, STATUS.PARTIAL)
 })

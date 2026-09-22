@@ -30,11 +30,17 @@ jobs:
         run: npm test
       - name: Lint
         run: npm run lint
+      - name: Verify Hugging Face token
+        id: huggingface
+        run: node scripts/check-huggingface.mjs >> "$GITHUB_OUTPUT"
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
       - name: Build static site
         run: npm run build
         env:
           BASE_PATH: /${{ github.event.repository.name }}/
           DEPLOYMENT_STATUS: READY
+          HF_PROVIDER_STATUS: ${{ steps.huggingface.outputs.status }}
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

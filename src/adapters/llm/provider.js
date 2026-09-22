@@ -1,6 +1,6 @@
 import { createNotConnectedAdapter } from "../sourceAdapter.js"
 
-export function createLlmAdapter() {
+export function createLlmAdapter(overrides = {}) {
   return createNotConnectedAdapter({
     id: "llm-provider",
     label: "LLM analysis provider",
@@ -10,5 +10,6 @@ export function createLlmAdapter() {
     capabilities: ["summarize", "extract", "explain conflict", "compose scenario"],
     requiredEnv: ["LLM_PROVIDER"],
     status: "NOT CONNECTED",
+    ...overrides,
   })
 }

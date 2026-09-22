@@ -13,7 +13,7 @@ The dashboard is designed for the period before important US releases. It organi
 - Conditional scenarios: above forecast, in line and below forecast.
 - Provenance, freshness, source conflicts and primary-source rationale.
 
-The current public build intentionally reports live market data, browser research and LLM services as `NOT CONNECTED`.
+The current public build intentionally reports live market data and browser research as `NOT CONNECTED`. Hugging Face can be verified in CI through a repository secret, but inference is not exposed directly from the public browser.
 
 ## Architecture
 
@@ -71,11 +71,12 @@ NEWS_PROVIDER=not-connected
 FED_DATA_PROVIDER=not-connected
 LLM_PROVIDER=not-connected
 BROWSER_AGENT_PROVIDER=not-connected
+HF_TOKEN=never-commit-this
 STALE_AFTER_MINUTES=30
 SCENARIO_INLINE_TOLERANCE=0.05
 ```
 
-Real values belong in a backend secret store or GitHub Actions secrets. Never put them in `app.js`, `localStorage`, `.env` committed to Git, or the browser bundle.
+Real values belong in a backend secret store or GitHub Actions secrets. For Hugging Face, add a repository secret named `HF_TOKEN`. Never put it in `app.js`, `localStorage`, `.env` committed to Git, or the browser bundle.
 
 ## Development
 
@@ -104,6 +105,8 @@ The service worker caches the application shell only. It must not be interpreted
 3. Builds with a repository-aware base path.
 4. Uploads `dist/` as a Pages artifact.
 5. Deploys through the official GitHub Pages Actions.
+
+If `HF_TOKEN` exists, the workflow verifies it against Hugging Face and marks the LLM boundary `PARTIAL`. This means the credential is valid in CI; it does not claim that browser-side inference is safe or connected.
 
 The workflow requires Pages to use **GitHub Actions** as its source. The repository owner must retain `pages: write` and `id-token: write` workflow permissions.
 
@@ -141,11 +144,13 @@ The Browser Research Agent boundary requires a visible source URL, extraction ti
 - No credential or API key is shipped in the front-end.
 - Settings stores only non-secret display preferences in `localStorage`.
 - No provider secret is placed in README, source or test fixtures.
+- Hugging Face access is read only from the GitHub Actions secret `HF_TOKEN` during CI verification.
 - Static GitHub Pages cannot safely proxy private provider credentials; use a backend or serverless secret boundary before connecting live feeds.
 
 ## Limitations
 
-- No live economic calendar, market data, news, Fed, Browser Agent or LLM is connected in this version.
+- No live economic calendar, market data, news, Fed or Browser Agent is connected in this version.
+- Hugging Face token verification is CI-only; runtime LLM inference still needs a secure backend endpoint.
 - Historical reaction values are unavailable until timestamped XAUUSD price data and release observations are available.
 - Iran time is computed from a verified UTC release timestamp; it is never guessed from a label.
 - A synchronized market move is not causal proof. Reaction tables must retain method and provenance.
@@ -158,7 +163,7 @@ The Browser Research Agent boundary requires a visible source URL, extraction ti
 2. Add a market-data adapter with UTC-normalized OHLC and release-window calculations.
 3. Add source reconciliation with field-level conflict status and primary-source rules.
 4. Add Browser Use research jobs with an immutable provenance record.
-5. Add an LLM provider interface behind deterministic numeric calculations.
+5. Add a secure server-side Hugging Face inference endpoint behind deterministic numeric calculations.
 6. Add a small persistence layer for observations, revisions and audit history.
 7. Add alerting only after data freshness, conflict and source confidence gates are met.
 

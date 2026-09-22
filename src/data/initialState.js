@@ -13,6 +13,11 @@ export const CONTEXT_METRICS = Object.freeze([
 ])
 
 export function createInitialState({ registry = createAdapterRegistry(), runtimeMeta = {} } = {}) {
+  const hfProviderStatus = runtimeMeta.hfProviderStatus ?? STATUS.NOT_CONNECTED
+  const adapters = registry.map((adapter) => adapter.id === "llm-provider" ? { ...adapter, status: hfProviderStatus } : adapter)
+  const llmNote = hfProviderStatus === STATUS.PARTIAL
+    ? "Hugging Face token verified in CI; browser-side inference is intentionally not exposed."
+    : "LLM is optional and not connected."
   const metrics = Object.fromEntries(
     CONTEXT_METRICS.map((metric) => [metric.key, createUnavailableMetric(metric.label, { note: metric.detail })])
   )
@@ -23,7 +28,7 @@ export function createInitialState({ registry = createAdapterRegistry(), runtime
     createSystemStatus("GitHub Pages", runtimeMeta.deploymentStatus ?? "PENDING DEPLOY", "Deployment state is injected by the build workflow."),
     createSystemStatus("Live Market Data", STATUS.NOT_CONNECTED, "No market-data provider is connected."),
     createSystemStatus("Browser Agent", STATUS.NOT_CONNECTED, "Research agent boundary is defined but not connected."),
-    createSystemStatus("LLM", STATUS.NOT_CONNECTED, "LLM is optional and not connected."),
+    createSystemStatus("LLM", hfProviderStatus, llmNote),
   ]
   return {
     instrument: "XAUUSD",
@@ -38,7 +43,7 @@ export function createInitialState({ registry = createAdapterRegistry(), runtime
     },
     sourceConflicts: [],
     system,
-    adapters: registry,
+    adapters,
     dataPolicy: {
       nullValues: true,
       noSyntheticMarketData: true,

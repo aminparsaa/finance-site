@@ -7,6 +7,7 @@ import { renderApp } from "./src/ui/render.js"
 const runtimeMeta = window.__APP_META__ ?? {
   basePath: document.querySelector('meta[name="x-base-path"]')?.content ?? "/",
   deploymentStatus: "PENDING DEPLOY",
+  hfProviderStatus: "NOT CONNECTED",
 }
 const repository = createDataRepository({ registry: createAdapterRegistry(), runtimeMeta })
 let state = repository.getSnapshot()
