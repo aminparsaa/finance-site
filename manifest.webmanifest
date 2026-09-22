@@ -1,0 +1,11 @@
+{
+  "name": "XAUUSD Pre-News Intelligence",
+  "short_name": "XAUUSD Intel",
+  "description": "Evidence-led, conditional pre-news intelligence for gold.",
+  "start_url": "./#/dashboard",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b0d0f",
+  "theme_color": "#0b0d0f",
+  "icons": []
+}

@@ -1,0 +1,15 @@
+{
+  "name": "xauusd-pre-news-intelligence",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Evidence-led, conditional pre-news intelligence workspace for XAUUSD.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "lint": "node scripts/lint.mjs",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
